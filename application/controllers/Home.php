@@ -13,19 +13,14 @@ class Home extends CI_Controller
 
     public function index()
     {
-        public_view('index');
-    }
-
-    public function single_view($id = null)
-    {
         try {
-            if($blogDtls = $this->blog_model->get($id)){
-                public_view('single-blog', compact('blogDtls'));
+            if ($this->http->session_gets()) {
+                view('blog/dashboard');
             } else {
-                redirect(base_url());
+                $this->load->view('login_view');
             }
         } catch (\Throwable $th) {
-            pp($th);
+            redirect(base_url());
         }
     }
 }

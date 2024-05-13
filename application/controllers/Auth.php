@@ -70,7 +70,7 @@ class Auth extends CI_Controller
 							$lresp = (object) $lresp;
 							// define('USER_DATA', $lresp);
 							$this->session->set_userdata('logged_in', $lresp);
-							redirect(portal_url(), 'refresh');
+							redirect(base_url(), 'refresh');
 						} else {
 							set_message("danger", "You are not Active");
 						}
@@ -81,13 +81,13 @@ class Auth extends CI_Controller
 			}
 			$this->load->view('login_view');
 		} catch (\Throwable $th) {
-			redirect(portal_url('login'), 'refresh');
+			redirect(base_url('login'), 'refresh');
 		}
 	}
 
 	public function session_logout()
 	{
 		$this->session->sess_destroy();
-		redirect(portal_url("login"));
+		redirect(base_url());
 	}
 }

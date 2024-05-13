@@ -60,13 +60,6 @@ if (!function_exists('pp')) {
   }
 }
 
-if (!function_exists('portal_url')) {
-  function portal_url($segment = '')
-  {
-    return base_url("portal/{$segment}");
-  }
-}
-
 
 
 if (!function_exists('is_post')) {

@@ -86,7 +86,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="<?= portal_url() ?>" class="nav-link">Home</a>
+                    <a href="<?= base_url() ?>" class="nav-link">Home</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contact</a>
@@ -96,7 +96,7 @@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                     <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                         <i class="fas fa-search"></i>
                     </a>
@@ -115,17 +115,16 @@
                             </div>
                         </form>
                     </div>
-                </li>
+                </li> -->
 
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
                         <span class="badge badge-danger navbar-badge">3</span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
                             <div class="media">
                                 <img src="<?= base_url(); ?>assets/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
                                 <div class="media-body">
@@ -137,11 +136,9 @@
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
-                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
                             <div class="media">
                                 <img src="<?= base_url(); ?>assets/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
@@ -153,11 +150,9 @@
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
-                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
                             <div class="media">
                                 <img src="<?= base_url(); ?>assets/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
                                 <div class="media-body">
@@ -169,14 +164,13 @@
                                     <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
                                 </div>
                             </div>
-                            <!-- Message End -->
                         </a>
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                     </div>
-                </li>
+                </li> -->
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-bell"></i>
                         <span class="badge badge-warning navbar-badge">15</span>
@@ -201,7 +195,7 @@
                         <div class="dropdown-divider"></div>
                         <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
                     </div>
-                </li>
+                </li> -->
 
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
@@ -218,24 +212,10 @@
                                 <small>Member since <?= date("jS M Y", strtotime($this->http->session_get("created_on"))); ?></small>
                             </p>
                         </li>
-                        <!-- Menu Body -->
-                        <!-- <li class="user-body">
-                            <div class="row">
-                                <div class="col-4 text-center">
-                                    <a href="#">Followers</a>
-                                </div>
-                                <div class="col-4 text-center">
-                                    <a href="#">Sales</a>
-                                </div>
-                                <div class="col-4 text-center">
-                                    <a href="#">Friends</a>
-                                </div>
-                            </div>
-                        </li> -->
-                        <!-- Menu Footer-->
+                       
                         <li class="user-footer">
                             <!-- <a href="#" class="btn btn-default btn-flat">Profile</a> -->
-                            <a href="<?= portal_url('logout'); ?>" class="btn btn-default btn-flat float-right">Sign out</a>
+                            <a href="<?= base_url('logout'); ?>" class="btn btn-default btn-flat float-right">Sign out</a>
                         </li>
                     </ul>
                 </li>
@@ -245,11 +225,6 @@
                         <i class="fas fa-expand-arrows-alt"></i>
                     </a>
                 </li> -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                        <i class="fas fa-th-large"></i>
-                    </a>
-                </li> -->
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -257,7 +232,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="<?= portal_url(); ?>" class="brand-link">
+            <a href="<?= base_url(); ?>" class="brand-link">
                 <img src="<?= base_url(Logo); ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light"><?= HF_title; ?></span>
             </a>
@@ -301,26 +276,10 @@
                             </ul>
                         </li> -->
                         <li class="nav-item">
-                            <a href="<?= portal_url(); ?>" class="nav-link">
+                            <a href="<?= base_url(); ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
                                     Dashboard
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= portal_url('category'); ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Blog Category
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= portal_url('blog'); ?>" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>
-                                    Blogs
                                 </p>
                             </a>
                         </li>

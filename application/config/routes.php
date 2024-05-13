@@ -30,27 +30,20 @@ $route['translate_uri_dashes'] = FALSE;
 
 //  ************************* PUBLIC *******************************
 $route['default_controller'] = 'home';
-$route['single-blog/(:num)'] = "home/single_view/$1";
+$route['logout'] = 'auth/session_logout';
 
 
 
 //  ************************* PORTAL *******************************
 
 
-// LOGIN AND DASHBOARD
-group_route("portal", [
-    "" => 'auth/index',
-    "login" => 'auth/index',
-    "logout" => 'auth/session_logout',
+// // LOGIN AND DASHBOARD
+// group_route("portal", [
+//     "" => 'auth/index',
+//     "login" => 'auth/index',
+//     "logout" => 'auth/session_logout',
 
 
-    "dashboard" => 'home/index',
-    "category" => 'category/index',
-]);
-
-// BLOG
-group_route("portal/blog",[
-    ""=>'blog/index',
-    "save"=>'blog/save',
-    "save/(:num)"=>'blog/save/$1',
-]);
+//     "dashboard" => 'home/index',
+//     "category" => 'category/index',
+// ]);
