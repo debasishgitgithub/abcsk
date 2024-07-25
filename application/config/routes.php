@@ -32,18 +32,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['default_controller'] = 'home';
 $route['logout'] = 'auth/session_logout';
 
-
-
-//  ************************* PORTAL *******************************
-
-
-// // LOGIN AND DASHBOARD
-// group_route("portal", [
-//     "" => 'auth/index',
-//     "login" => 'auth/index',
-//     "logout" => 'auth/session_logout',
-
-
-//     "dashboard" => 'home/index',
-//     "category" => 'category/index',
-// ]);
+group_route("student", [
+    "register" => 'student/save',
+    "" => 'student/index',
+]);

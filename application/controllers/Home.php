@@ -7,7 +7,7 @@ class Home extends CI_Controller
     {
         parent::__construct();
         $this->load->model([
-            'blog_model'
+            // 'blog_model'
         ]);
     }
 
@@ -15,7 +15,7 @@ class Home extends CI_Controller
     {
         try {
             if ($this->http->session_gets()) {
-                view('blog/dashboard');
+                view('dashboard');
             } else {
                 $this->load->view('login_view');
             }
