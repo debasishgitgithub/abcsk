@@ -62,9 +62,9 @@
             <thead>
               <tr>
                 <th style="width: 1%">S/L</th>
-                <th>Title</th>
-                <th>Category Name</th>
-                <th>Image</th>
+                <th>Stuent Name</th>
+                <th>Father Name</th>
+                <th>Mobile No</th>
                 <th>Status</th>
                 <th>Created On</th>
                 <th>Action</th>
@@ -84,46 +84,47 @@
 <!-- /.content-wrapper -->
 <script>
   $(document).ready(function() {
-    // let table = $('#tbl_blogs').DataTable({
-    //   responsive: true,
-    //   autoWidth: false,
-    //   serverSide: false,
-    //   "ajax": {
-    //     "url": "<?= base_url('blog/get_all') ?>",
-    //     "type": "get",
-    //     // "data": function(d) {
-    //     //   d.registration_no = $('#registration_no').val();
-    //     //   d.from = $('#from').val();
-    //     //   d.to = $('#to').val();
-    //     // },
-    //     "dataSrc": function(d) {
-    //       if (d.code == 200) {
-    //         return d.data.map((v, i) => {
-    //           // var dateObj = new Date(v.datetime);
-    //           // var yyyy = dateObj.getFullYear();
-    //           // var mm = String(dateObj.getMonth() + 1).padStart(2, '0');
-    //           // var dd = String(dateObj.getDate()).padStart(2, '0');
-    //           let action_btns = {
-    //             'edit': `<a href="<?= base_url("blog/save/"); ?>${v.id}" class="btn btn-primary" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>`,
-    //             'delete': `<button class="btn btn-danger dlt_blog" data-id="${v.id}"  title="Delete blog" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></button>`
-    //           };
-    //           return [
-    //             ++i,
-    //             v.title,
-    //             v.category_name,
-    //             `<button class="btn btn-success btn-sm view_img" data-id="${v.id}"  title="View Image" data-toggle="tooltip"><i class="fas fa-images"></i></button>`,
-    //             v.status == true ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-warning">Inactive</span>`,
-    //             v.create_on,
-    //             `<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">${Object.values(action_btns).join('')}</div>`
-    //           ];
-    //         });
-    //       } else if (d.code == 203) {
-    //         toastr.error(d.message);
-    //       }
-    //       return [];
-    //     },
-    //   }
-    // });
+    let table = $('#tbl_blogs').DataTable({
+      responsive: true,
+      autoWidth: false,
+      serverSide: false,
+      "ajax": {
+        "url": "<?= base_url('student/get_all') ?>",
+        "type": "get",
+        // "data": function(d) {
+        //   d.registration_no = $('#registration_no').val();
+        //   d.from = $('#from').val();
+        //   d.to = $('#to').val();
+        // },
+        "dataSrc": function(d) {
+          if (d.code == 200) {
+            return d.data.map((v, i) => {
+              // var dateObj = new Date(v.datetime);
+              // var yyyy = dateObj.getFullYear();
+              // var mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+              // var dd = String(dateObj.getDate()).padStart(2, '0');
+              let action_btns = {
+                'edit': `<a href="<?= base_url("student/save/"); ?>${v.id}" class="btn btn-primary" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>`,
+                'delete': `<button class="btn btn-danger dlt_blog" data-id="${v.id}"  title="Delete Student" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></button>`
+              };
+              return [
+                ++i,
+                v.full_name,
+                v.father_name,
+                v.mobile_no,
+                // `<button class="btn btn-success btn-sm view_img" data-id="${v.id}"  title="View Image" data-toggle="tooltip"><i class="fas fa-images"></i></button>`,
+                v.status == 'ACTIVE' ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-warning">Inactive</span>`,
+                v.created_at,
+                `<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">${Object.values(action_btns).join('')}</div>`
+              ];
+            });
+          } else if (d.code == 203) {
+            toastr.error(d.message);
+          }
+          return [];
+        },
+      }
+    });
 
     // $('body').on('click', '.view_img', function() {
     //   const blog_id = $(this).data('id');

@@ -23,7 +23,7 @@ class Student_model extends CI_Model
 
     public function get_all($status = null,  $user_id = null)
     {
-        $this->db->select("*");
+        $this->db->select("*, CONCAT(first_name, ' ', last_name ) AS full_name");
         $this->db->from($this->table);
         if (!is_null($status)) {
             $this->db->where("status", $status);

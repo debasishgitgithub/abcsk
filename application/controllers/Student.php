@@ -7,16 +7,15 @@ class Student extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model([
-            'student_model',
-            'courses_model'
+			'student_model',
+			'courses_model'
 		]);
 	}
 
 	private function save_view($user_id, $id = null)
 	{
 		$courses_list = $this->courses_model->get_all(1);
-		if ($student_dtls = $this->student_model->get($id)) {
-			// pp($blg_dtls);
+		if ($student_dtls = $this->student_model->get($id, null, $user_id)) {
 			view('student/create', compact('courses_list', 'student_dtls'), "ABCSK | Update");
 		} else {
 			view('student/create', compact('courses_list'), "ABCSK | Register");
@@ -33,35 +32,94 @@ class Student extends CI_Controller
 		}
 	}
 
+	public function get_all()
+	{
+		try {
+			$u = $this->http->auth(['get', 'post'], ['SUPER_ADMIN', 'SUPPORT_ADMIN']);
+			$user_id = $u->user_id;
+
+			if ($data = $this->student_model->get_all(null, $user_id)) {
+				return $this->http->response->create(200, "Data found successfully", $data);
+			} else {
+				return $this->http->response->create(203, "No data found");
+			}
+		} catch (\Throwable $th) {
+			return $this->http->response->serverError($th->getMessage());
+		}
+	}
+
 	public function save($id = null)
 	{
 		try {
 			$u = $this->http->auth(['get', 'post'], ['SUPER_ADMIN', 'SUPPORT_ADMIN']);
 			$user_id = $u->user_id;
-			$p = $this->input->post();
 
 			if (is_post()) {
 				$this->form_validation->set_rules(
 					[
 						[
-							'field' => 'title',
-							'label' => 'title',
+							'field' => 'first_name',
+							'label' => 'First name',
 							'rules' => 'required',
 						],
 						[
-							'field' => 'content',
-							'label' => 'Content',
+							'field' => 'last_name',
+							'label' => 'Last name',
 							'rules' => 'required',
 						],
-						// [
-						// 	'field' => 'short_content',
-						// 	'label' => 'short_content',
-						// 	'rules' => 'required',
-						// ],
 						[
-							'field' => 'category_id',
-							'label' => 'Category',
-							'rules' => 'required|is_exist[category.id]',
+							'field' => 'father_name',
+							'label' => 'Father name',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'mobile_no',
+							'label' => 'Mobile no',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'email',
+							'label' => 'Email',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'city',
+							'label' => 'City',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'state',
+							'label' => 'State',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'aadhaar_no',
+							'label' => 'Aadhaar no',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'pin',
+							'label' => 'Pin',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'address',
+							'label' => 'Address',
+							'rules' => 'required',
+						],
+						[
+							'field' => 'installation_type',
+							'label' => 'installation_type',
+							'rules' => 'required|in_list[one_time,installment]',
+							'errors' => array(
+								'is_exist' => '%s not exist',
+							),
+						],
+
+						[
+							'field' => 'course_id',
+							'label' => 'Course',
+							'rules' => 'required|is_exist[courses.id]',
 							'errors' => array(
 								'is_exist' => '%s not exist',
 							),
@@ -69,124 +127,93 @@ class Student extends CI_Controller
 						[
 							'field' => 'status',
 							'label' => 'Status',
-							'rules' => 'required|in_list[0,1]',
+							'rules' => 'required|in_list[ACTIVE,INACTIVE]',
 							'errors' => array(
 								'is_exist' => '%s not exist',
 							),
 						],
-						[
-							'field' => 'blogimage[]',
-							'label' => 'Blog Image',
-							// 'rules' => 'file_required[blogimage]|file_extension[blogimage.jpeg|jpg|png]|file_maxsize[blogimage.2024]",
-							'rules' => 'file_required[blogimage]',
-							'errors' => array(
-								'file_required' => 'The {field} field is required',
-								'file_extension' => 'The {field} field must have a valid file extension jpeg|jpg|png',
-								'file_maxsize' => 'The {field} field must not exceed 2024 KB.',
-							),
-						],
+						// [
+						// 	'field' => 'mp_admit_card',
+						// 	'label' => 'MP Admit card',
+						// 	// 'rules' => 'file_required[blogimage]|file_extension[blogimage.jpeg|jpg|png]|file_maxsize[blogimage.2024]",
+						// 	'rules' => 'file_required[mp_admit_card]',
+						// 	'errors' => array(
+						// 		'file_required' => 'The {field} field is required',
+						// 		'file_extension' => 'The {field} field must have a valid file extension jpeg|jpg|png',
+						// 		'file_maxsize' => 'The {field} field must not exceed 2024 KB.',
+						// 	),
+						// ],
 					]
 				);
 
 				if ($this->form_validation->run() == true) {
-					$upload_file_names = [];
+					$upload_file_names = '';
 
 					// file validation for insert
 					if (is_null($id)) {
-						if (empty($_FILES['blogimage']['name'][0])) {
-							set_message('danger', 'please select your file');
+						if (empty($_FILES['mp_admit_card']['name'])) {
+							set_message('danger', 'please select your MP admit card');
 							$this->save_view($user_id, $id);
 							return;
 						}
 					}
 
 					// file upload
-					if (!empty($_FILES['blogimage']['name'][0])) {
-
-						if (!empty($id) && $u->type == 'SUPPORT_ADMIN') {
-							set_message('danger', 'Permission not allow');
-							redirect(base_url('blog'), 'refresh');
-						}
-
-						$where_in_fileArr = ['img_name' => $_FILES['blogimage']['name']];
-
-						$duplicate_filesArr = array_column($this->blog_img_model->get_all($where_in_fileArr), 'img_name');
-
-						if (!empty($duplicate_filesArr)) {
-							$dup_file = array_reduce($duplicate_filesArr, function ($carry, $file_name) {
-								return $carry .= "{$file_name} already exists.<br>";
-							});
-							set_message('danger', $dup_file);
-							$this->save_view($user_id, $id);
-							return;
-						}
+					if (!empty($_FILES['mp_admit_card']['name'])) {
 
 						$config = [
-							'upload_path' => 'documents/uploads/blog_img',
+							'upload_path' => 'documents/student/mp_admit',
 							'allowed_types' => 'jpg|jpeg|png',
 						];
 
-						if (!$this->mfile->upload('blogimage', $config)) {
+						if (!$this->mfile->upload('mp_admit_card', $config)) {
 							set_message('danger', 'File uploading error');
 							$this->save_view($user_id, $id);
 							return;
 						}
 
-						$upload_file_names = $this->mfile->file_names();
+						$upload_file_names = $this->mfile->file_names(true);
 					}
 
 					$data = [
+						'first_name' => $this->input->post('first_name'),
+						'last_name' => $this->input->post('last_name'),
+						'father_name' => $this->input->post('father_name'),
+						'mobile_no' => $this->input->post('mobile_no'),
+						'email' => $this->input->post('email'),
+						'city' => $this->input->post('city'),
+						'state' => $this->input->post('state'),
+						'aadhaar_no' => $this->input->post('aadhaar_no'),
+						'pin' => $this->input->post('pin'),
+						'address' => $this->input->post('address'),
+						'course_id' => $this->input->post('course_id'),
+						'installation_type' => $this->input->post('installation_type'),
+						'status' => $this->input->post('status'),
 						'user_id' => $user_id,
-						"title" => $p['title'],
-						"short_content" => $p['short_content'],
-						"content" => $p['content'],
-						"category_id" => $p['category_id'],
-						"status" => $p['status']
 					];
+
+					if (!empty($upload_file_names)) {
+						$data['mp_admit_card_image'] = $upload_file_names;
+					}
 
 					if (is_null($id)) {
 						// insert
-						if ($blog_id = $this->blog_model->insert($data)) {
-							$img_data = array_map(fn ($file_name) => ['img_name' => $file_name, 'blog_id' => $blog_id], $upload_file_names);
-							if ($this->blog_img_model->insert_batch($img_data)) {
-								set_message('success', 'Blog create successfully');
-							} else {
-								$this->blog_model->delete($blog_id);
-								set_message('danger', 'Blog img upload failed');
-							}
+						if ($blog_id = $this->student_model->insert($data)) {
+							set_message('success', 'Student register successfully');
 						} else {
 							$this->mfile->unlink_files();
-							set_message('danger', 'Blog create failed');
+							set_message('danger', 'Student register failed');
 						}
 					} else {
 						// update
-						if ($this->blog_model->get($id, null, $u->type == 'SUPER_ADMIN' ? null : $user_id)) {
-							if ($this->blog_model->update($id, $data)) {
-								if (!empty($upload_file_names)) {
-									$img_data = array_map(fn ($file_name) => ['img_name' => $file_name, 'blog_id' => $id], $upload_file_names);
-									if ($this->blog_img_model->insert_batch($img_data)) {
-										$blog_img_dtls = $this->blog_img_model->get_all(null, $id);
-										foreach ($blog_img_dtls as $row) {
-											if (file_exists(FCPATH . $config['upload_path'] . "/{$row->img_name}")) {
-												unlink(FCPATH . $config['upload_path'] . "/{$row->img_name}");
-											}
-										}
-										set_message('success', 'Blog updated successfully');
-									} else {
-										set_message('danger', 'Blog img upload failed');
-									}
-								} else {
-									set_message('success', 'Blog update success');
-								}
-							} else {
-								if (!empty($upload_file_names)) $this->mfile->unlink_files();
-								set_message('danger', 'Blog update failed');
-							}
+						if ($this->student_model->update($id, $data)) {
+							set_message('success', 'Student update success');
 						} else {
-							set_message('danger', 'Permission not allow');
+							$this->mfile->unlink_files();
+							set_message('danger', 'Student update failed');
 						}
 					}
-					redirect(base_url('blog'), 'refresh');
+					redirect(base_url('student'), 'refresh');
 				} else {
 					$this->save_view($user_id, $id);
 				}

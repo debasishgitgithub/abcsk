@@ -4,7 +4,7 @@
 CREATE TABLE `students` (
   `id` int(11) NOT NULL,
   `first_name` varchar(150) NOT NULL,
-  `last_nmae` varchar(150) NOT NULL,
+  `last_name` varchar(150) NOT NULL,
   `user_id` int(11) NOT NULL,
   `father_name` varchar(200) NOT NULL,
   `session` varchar(150) NOT NULL,
@@ -52,3 +52,11 @@ ALTER TABLE `courses`
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
+
+
+### 26/07/2024
+
+
+ALTER TABLE `students` CHANGE `last_nmae` `last_name` VARCHAR(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
+
+ALTER TABLE `students` CHANGE `profile_image` `profile_image` VARCHAR(300) NOT NULL, CHANGE `mp_admit_card_image` `mp_admit_card_image` VARCHAR(300) NOT NULL;

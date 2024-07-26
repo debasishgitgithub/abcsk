@@ -34,5 +34,6 @@ $route['logout'] = 'auth/session_logout';
 
 group_route("student", [
     "register" => 'student/save',
+    "save/(:num)" => 'student/save/$1',
     "" => 'student/index',
 ]);
