@@ -8,9 +8,9 @@ $mobile_no = '';
 $email = '';
 $city = '';
 $state = '';
-$aadhaar_no='';
-$pin='';
-$address='';
+$aadhaar_no = '';
+$pin = '';
+$address = '';
 $course_id = '';
 $installation_type = 'installment';
 $status = 'ACTIVE';
@@ -137,7 +137,7 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                   <div class="form-group col-md-6">
                     <label for="installation_type">Installation type</label>
                     <?php
-                    $installation_type_arr = ['one_time' => 'One time', 'installment'=>'Installment'];
+                    $installation_type_arr = ['one_time' => 'One time', 'installment' => 'Installment'];
                     $error_class = set_form_error('installation_type', false);
                     echo form_dropdown("installation_type", $installation_type_arr, set_value('installation_type', $installation_type), "class='form-control form-control-sm {$error_class}'");
                     echo set_form_error('installation_type');
@@ -163,10 +163,16 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                   </div>
 
                   <div class="form-group">
-                  <label for="mp_admit_card">Select MP Admit Card</label>
-                  <input type="file" class="form-control-file <?= set_form_error('mp_admit_card', false); ?>" name="mp_admit_card" multiple>
-                  <?= set_form_error('mp_admit_card'); ?>
-                </div>
+                    <label for="mp_admit_card">Select MP Admit Card</label>
+                    <input type="file" class="form-control-file <?= set_form_error('mp_admit_card', false); ?>" name="mp_admit_card" multiple>
+                    <?= set_form_error('mp_admit_card'); ?>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="profile_image">Select Profile image</label>
+                    <input type="file" class="form-control-file <?= set_form_error('profile_image', false); ?>" name="profile_image" multiple>
+                    <?= set_form_error('profile_image'); ?>
+                  </div>
 
                 </div>
 

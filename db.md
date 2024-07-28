@@ -51,12 +51,20 @@ ALTER TABLE `courses`
 
 ALTER TABLE `courses`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-COMMIT;
 
 
 ### 26/07/2024
 
 
-ALTER TABLE `students` CHANGE `last_nmae` `last_name` VARCHAR(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL;
-
 ALTER TABLE `students` CHANGE `profile_image` `profile_image` VARCHAR(300) NOT NULL, CHANGE `mp_admit_card_image` `mp_admit_card_image` VARCHAR(300) NOT NULL;
+
+INSERT INTO courses (short_name, status) VALUES
+('DCA', 1),
+('ADCA', 1),
+('CITA', 1),
+('DITA', 1),
+('DIT', 1),
+('DDP', 1),
+('FA', 1),
+('DTA', 1),
+('DHN', 1);

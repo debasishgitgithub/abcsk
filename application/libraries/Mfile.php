@@ -72,7 +72,7 @@ class Mfile
     private function make_dir($path)
     {
         if (!is_dir($path)) {
-            mkdir($path, 777, true);
+            mkdir($path, 0755, true);
             fopen(rtrim($path, '/') . '/' . 'index.html', 'w');
         }
     }

@@ -147,7 +147,8 @@ class Student extends CI_Controller
 				);
 
 				if ($this->form_validation->run() == true) {
-					$upload_file_names = '';
+					$uploaded_mp_file_name = '';
+					$uploaded_profile_filename = '';
 
 					// file validation for insert
 					if (is_null($id)) {
@@ -156,14 +157,21 @@ class Student extends CI_Controller
 							$this->save_view($user_id, $id);
 							return;
 						}
+
+						if (empty($_FILES['profile_image']['name'])) {
+							set_message('danger', 'please select your Profile image');
+							$this->save_view($user_id, $id);
+							return;
+						}
 					}
 
-					// file upload
+					// upload mp file
 					if (!empty($_FILES['mp_admit_card']['name'])) {
 
 						$config = [
 							'upload_path' => 'documents/student/mp_admit',
 							'allowed_types' => 'jpg|jpeg|png',
+							"encrypt_name" => TRUE // Randomize file names
 						];
 
 						if (!$this->mfile->upload('mp_admit_card', $config)) {
@@ -172,8 +180,28 @@ class Student extends CI_Controller
 							return;
 						}
 
-						$upload_file_names = $this->mfile->file_names(true);
+						$uploaded_mp_file_name = $this->mfile->file_names(true);
 					}
+
+					// upload profile image
+					if (!empty($_FILES['profile_image']['name'])) {
+
+						$config = [
+							'upload_path' => 'documents/student/profile_image',
+							'allowed_types' => 'jpg|jpeg|png',
+							"encrypt_name" => TRUE // Randomize file names
+						];
+
+						if (!$this->mfile->upload('profile_image', $config)) {
+							set_message('danger', 'File uploading error');
+							$this->save_view($user_id, $id);
+							return;
+						}
+
+						$uploaded_profile_filename = $this->mfile->file_names(true);
+					}
+
+					
 
 					$data = [
 						'first_name' => $this->input->post('first_name'),
@@ -192,13 +220,17 @@ class Student extends CI_Controller
 						'user_id' => $user_id,
 					];
 
-					if (!empty($upload_file_names)) {
-						$data['mp_admit_card_image'] = $upload_file_names;
+					if (!empty($uploaded_mp_file_name)) {
+						$data['mp_admit_card_image'] = $uploaded_mp_file_name;
+					}
+
+					if (!empty($uploaded_profile_filename)) {
+						$data['profile_image'] = $uploaded_profile_filename;
 					}
 
 					if (is_null($id)) {
 						// insert
-						if ($blog_id = $this->student_model->insert($data)) {
+						if ($this->student_model->insert($data)) {
 							set_message('success', 'Student register successfully');
 						} else {
 							$this->mfile->unlink_files();

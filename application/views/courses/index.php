@@ -5,12 +5,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Student List</h1>
+          <h1>Courses List</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="<?= base_url(''); ?>">Home</a></li>
-            <li class="breadcrumb-item active">Students</li>
+            <li class="breadcrumb-item active">Courses</li>
           </ol>
         </div>
       </div>
@@ -58,13 +58,14 @@
           <h3 class="card-title ">Title</h3>
         </div>
         <div class="card-body table-responsive p-2">
-          <table class="table table-striped text-center " id="tbl_blogs">
+          <table class="table table-striped text-center " id="tbl_courses">
             <thead>
               <tr>
                 <th style="width: 1%">S/L</th>
-                <th>Stuent Name</th>
-                <th>Father Name</th>
-                <th>Mobile No</th>
+                <th>Full name</th>
+                <th>Short name</th>
+                <th>Duration (month)</th>
+                <th>Fees</th>
                 <th>Status</th>
                 <th>Created On</th>
                 <th>Action</th>
@@ -80,21 +81,19 @@
 
   <!-- /.content -->
 </div>
-<a href="<?= base_url("student/register") ?>" class="btn btn-danger fix-add-btn " title="New Registration"><i class="fa fa-plus"></i></a>
+<a href="<?= base_url("courses/save") ?>" class="btn btn-danger fix-add-btn " title="New Courses"><i class="fa fa-plus"></i></a>
 <!-- /.content-wrapper -->
 <script>
   $(document).ready(function() {
-    let table = $('#tbl_blogs').DataTable({
+    let table = $('#tbl_courses').DataTable({
       responsive: true,
       autoWidth: false,
       serverSide: false,
       "ajax": {
-        "url": "<?= base_url('student/get_all') ?>",
+        "url": "<?= base_url('courses/get_all') ?>",
         "type": "get",
         // "data": function(d) {
         //   d.registration_no = $('#registration_no').val();
-        //   d.from = $('#from').val();
-        //   d.to = $('#to').val();
         // },
         "dataSrc": function(d) {
           if (d.code == 200) {
@@ -104,16 +103,17 @@
               // var mm = String(dateObj.getMonth() + 1).padStart(2, '0');
               // var dd = String(dateObj.getDate()).padStart(2, '0');
               let action_btns = {
-                'edit': `<a href="<?= base_url("student/save/"); ?>${v.id}" class="btn btn-primary" title="Edit" data-toggle="tooltip"><i class="fas fa-edit"></i></a>`,
-                'delete': `<button class="btn btn-danger dlt_blog" data-id="${v.id}"  title="Delete Student" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></button>`
+                'edit': `<a href="<?= base_url("courses/save/"); ?>${v.id}" class="btn btn-primary" title="Edit courses" data-toggle="tooltip"><i class="fas fa-edit"></i></a>`,
+                'delete': `<button class="btn btn-danger dlt_courses" data-id="${v.id}"  title="Delete Courses" data-toggle="tooltip"><i class="fas fa-trash-alt"></i></button>`
               };
               return [
                 ++i,
                 v.full_name,
-                v.father_name,
-                v.mobile_no,
+                v.short_name,
+                v.duration_in_month,
+                v.fees,
                 // `<button class="btn btn-success btn-sm view_img" data-id="${v.id}"  title="View Image" data-toggle="tooltip"><i class="fas fa-images"></i></button>`,
-                v.status == 'ACTIVE' ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-warning">Inactive</span>`,
+                parseInt(v.status) ? `<span class="badge badge-success">Active</span>` : `<span class="badge badge-warning">Inactive</span>`,
                 v.created_at,
                 `<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">${Object.values(action_btns).join('')}</div>`
               ];
@@ -126,75 +126,33 @@
       }
     });
 
-    // $('body').on('click', '.view_img', function() {
-    //   const blog_id = $(this).data('id');
-    //   $.ajax({
-    //     url: `<?= base_url("blog_img/get_all") ?>`,
-    //     type: 'post',
-    //     dataType: 'json',
-    //     data: {
-    //       blog_id
-    //     },
-    //     beforeSend: function() {
-    //       $('.loading').show();
-    //     },
-    //     success: function(data) {
-    //       $('.loading').hide();
-    //       if (data.code == 200) {
-    //         $("#view_img_modal").modal('show');
-    //         let galleryImgElements = data.data.map((v, i) => {
-    //           let str = `<div class="col-sm-2">
-    //               <a href="[[IMG_URL]]" data-toggle="lightbox" data-title="[[DATA_TITLE]]" data-gallery="gallery">
-    //                 <img src="[[IMG_URL]]" class="img-fluid mb-2" alt="[[IMG_URL]]">
-    //               </a>
-                  
-    //             </div>`;
 
-    //           str = str.replace('[[IMG_URL]]', v.img_name);
-    //           str = str.replace('[[DATA_TITLE]]', `Image ${++i}`);
-    //           return str.replace('[[IMG_URL]]', v.img_name);
-    //         });
-    //         $(".card-body .appendPlaceImg").html('');
-    //         $(".card-body .appendPlaceImg").append(galleryImgElements.join(''));
-    //       } else {
-    //         toastr.error("Something is wrong");
-    //       }
-
-    //     },
-    //     error: function() {
-    //       $('.loading').hide();
-    //       toastr.error("Something is wrong");
-    //     }
-    //   });
-    // });
-
-
-    // $('body').on('click', '.dlt_blog', function() {
-    //   const blog_id = $(this).data('id');
-    //   if (confirm('Are you Sure ?')) {
-    //     $.ajax({
-    //       url: `<?= base_url("blog/delete/") ?>${blog_id}`,
-    //       type: 'post',
-    //       dataType: 'json',
-    //       beforeSend: function() {
-    //         $('.loading').show();
-    //       },
-    //       success: function(data) {
-    //         $('.loading').hide();
-    //         if (data.code == 200) {
-    //           toastr.success(data.message);
-    //           table.ajax.reload();
-    //         } else {
-    //           toastr.error(data.message);
-    //         }
-    //       },
-    //       error: function() {
-    //         $('.loading').hide();
-    //         toastr.error("Something is wrong");
-    //       }
-    //     });
-    //   }
-    // });
+    $('body').on('click', '.dlt_courses', function() {
+      const course_id = $(this).data('id');
+      if (confirm('Are you Sure ?')) {
+        $.ajax({
+          url: `<?= base_url("courses/delete/") ?>${course_id}`,
+          type: 'post',
+          dataType: 'json',
+          beforeSend: function() {
+            $('.loading').show();
+          },
+          success: function(data) {
+            $('.loading').hide();
+            if (data.code == 200) {
+              toastr.success(data.message);
+              table.ajax.reload();
+            } else {
+              toastr.error(data.message);
+            }
+          },
+          error: function() {
+            $('.loading').hide();
+            toastr.error("Something is wrong");
+          }
+        });
+      }
+    });
 
   });
 </script>

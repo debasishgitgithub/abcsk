@@ -34,11 +34,6 @@ class Student_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function insert_batch($data)
-    {
-        $this->db->insert_batch($this->table, $data);
-        return $this->db->affected_rows();
-    }
     public function insert($data)
     {
         $this->db->set($data);

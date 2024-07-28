@@ -37,3 +37,10 @@ group_route("student", [
     "save/(:num)" => 'student/save/$1',
     "" => 'student/index',
 ]);
+
+group_route("courses", [
+    "save" => 'courses/save',
+    "save/(:num)" => 'courses/save/$1',
+    "delete/(:num)" => 'courses/delete/$1',
+    "" => 'courses/index',
+]);
