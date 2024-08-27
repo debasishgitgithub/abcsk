@@ -12,6 +12,7 @@ $aadhaar_no = '';
 $pin = '';
 $address = '';
 $course_id = '';
+$username = '';
 $installation_type = 'installment';
 $status = 'ACTIVE';
 
@@ -33,6 +34,7 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
   $course_id = $student_dtls->course_id;
   $installation_type = $student_dtls->installation_type;
   $status = $student_dtls->status;
+  $username = $student_dtls->username;
 
   $action_url = base_url("student/save/{$student_dtls->id}");
 }
@@ -93,6 +95,16 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <label for="father_name">Father's name</label>
                     <input type="text" class="form-control form-control-sm <?= set_form_error('father_name', false); ?>" name="father_name" value="<?= set_value('father_name', $father_name) ?>">
                     <?= set_form_error('father_name'); ?>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control form-control-sm <?= set_form_error('username', false); ?>" name="username" value="<?= set_value('username', $username) ?>">
+                    <?= set_form_error('username'); ?>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="password">Password</label>
+                    <input type="text" class="form-control form-control-sm <?= set_form_error('password', false); ?>" name="password" value="<?= set_value('password') ?>">
+                    <?= set_form_error('password'); ?>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="mobile_no">Mobile No</label>

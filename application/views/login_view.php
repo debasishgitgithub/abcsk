@@ -24,12 +24,13 @@
                 <a href="#" class="h1"><b><?=APP_NAME?></b></a>
             </div>
             <div class="card-body">
-                <!-- <p class="login-box-msg">Sign in to start your session</p> -->
+                <p class="login-box-msg"><?$user_type?> login</p>
 
                 <?= get_message() ?>
 
                 <form action="<?= base_url('auth/session_login') ?>" method="post">
                     <div class="input-group mb-3">
+                        <input type="hidden" name="user_type" value="<?=$user_type?>">
                         <input type="text" name="username" class="form-control <?= set_form_error('username', false); ?>" value="<?= set_value('username') ?>" placeholder="Username">
                         <div class="input-group-append">
                             <div class="input-group-text">

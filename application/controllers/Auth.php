@@ -6,37 +6,62 @@ class Auth extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model(['user_model']);
+		$this->load->model(['user_model', 'student_model']);
 	}
-	public function index()
+
+	public function save_view($user_type = NULL)
 	{
 		try {
+			$user_type = strtoupper($user_type); // SUPER_ADMIN / SUPPORT_ADMIN / STUDENT
+
 			if ($this->http->session_gets()) {
-				view('blog/dashboard');
+				view('dashboard');
 			} else {
-				$this->load->view('login_view');
+				$this->load->view('login_view', ['user_type' => $user_type ?? 'STUDENT']);
 			}
 		} catch (\Throwable $th) {
 			return $this->http->response->serverError($th->getMessage());
 		}
 	}
-	private function login_mtc($username, $password)
+	private function login_mtc($username, $password, $user_type)
 	{
-		if ($user = $this->user_model->get_filter(null, $username)) {
-			if (password_verify($password, $user->password) === true) {
-				return [
-					'user_id' => $user->id,
-					'username' => $user->username,
-					'user_email' => $user->email,
-					'created_on' => $user->created_on,
-					'status' => $user->status,
-					'type' => $user->user_type,
-				];
+		$user_type = strtoupper($user_type);
+		if ($user_type == 'SUPPORT_ADMIN' || $user_type == 'SUPER_ADMIN') {
+			if ($user = $this->user_model->get_filter(null, $username)) {
+				if (password_verify($password, $user->password) === true) {
+					return [
+						'admin_id' => $user->id,
+						'user_id' => $user->id,
+						'username' => $user->username,
+						'user_email' => $user->email,
+						'created_on' => $user->created_on,
+						'status' => $user->status,
+						'type' => $user->user_type,
+					];
+				} else {
+					return "Username or password are not matched";
+				}
 			} else {
-				return "Username or password are not matched";
+				return "Username not found";
 			}
 		} else {
-			return "Username not found";
+			if ($student = $this->student_model->get_filter(null, $username)) {
+				if (password_verify($password, $student->password) === true) {
+					return [
+						'admin_id' => $student->admin_id,
+						'user_id' => $student->id,
+						'username' => $student->username,
+						'user_email' => $student->email,
+						'created_on' => $student->created_on,
+						'status' => $student->status,
+						'type' => 'STUDENT',
+					];
+				} else {
+					return "Username or password are not matched";
+				}
+			} else {
+				return "Username not found";
+			}
 		}
 	}
 
@@ -64,7 +89,7 @@ class Auth extends CI_Controller
 				if ($this->form_validation->run()) {
 
 					$data =  $this->input->post();
-					$lresp = $this->login_mtc($data["username"], $data["password"]);
+					$lresp = $this->login_mtc($data["username"], $data["password"], $data['user_type'] ?? null);
 					if (is_array($lresp)) {
 						if (isset($lresp['type']) == 'ACTIVE') {
 							$lresp = (object) $lresp;
@@ -79,7 +104,8 @@ class Auth extends CI_Controller
 					}
 				}
 			}
-			$this->load->view('login_view');
+
+			$this->save_view($user_type ?? 'STUDENT');
 		} catch (\Throwable $th) {
 			redirect(base_url('login'), 'refresh');
 		}

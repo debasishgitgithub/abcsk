@@ -68,3 +68,9 @@ INSERT INTO courses (short_name, status) VALUES
 ('FA', 1),
 ('DTA', 1),
 ('DHN', 1);
+
+### 27/08/2024
+
+ALTER TABLE `students` ADD `username` VARCHAR(200) NOT NULL AFTER `father_name`, ADD `password` TEXT NOT NULL AFTER `username`;
+
+ALTER TABLE `students` ADD `admin_id` INT NOT NULL AFTER `father_name`;

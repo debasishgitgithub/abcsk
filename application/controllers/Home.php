@@ -17,7 +17,7 @@ class Home extends CI_Controller
             if ($this->http->session_gets()) {
                 view('dashboard');
             } else {
-                $this->load->view('login_view');
+                redirect(base_url('portal_login/student'), 'refresh');
             }
         } catch (\Throwable $th) {
             redirect(base_url());

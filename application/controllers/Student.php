@@ -73,6 +73,16 @@ class Student extends CI_Controller
 							'rules' => 'required',
 						],
 						[
+							'field' => 'username',
+							'label' => 'Username',
+							'rules' => "required|is_unique_filter[students.username.id!=/{$id}]",
+						],
+						[
+							'field' => 'password',
+							'label' => 'Password',
+							'rules' => 'required',
+						],
+						[
 							'field' => 'mobile_no',
 							'label' => 'Mobile no',
 							'rules' => 'required',
@@ -204,6 +214,7 @@ class Student extends CI_Controller
 					
 
 					$data = [
+						'admin_id' => $u->admin_id,
 						'first_name' => $this->input->post('first_name'),
 						'last_name' => $this->input->post('last_name'),
 						'father_name' => $this->input->post('father_name'),
@@ -219,6 +230,14 @@ class Student extends CI_Controller
 						'status' => $this->input->post('status'),
 						'user_id' => $user_id,
 					];
+
+					if ($username = $this->input->post('username')) {
+						$data['username'] = $username;
+					}
+
+					if ($password = $this->input->post('password')) {
+						$data['password'] = password_hash($password, PASSWORD_BCRYPT);
+					}
 
 					if (!empty($uploaded_mp_file_name)) {
 						$data['mp_admit_card_image'] = $uploaded_mp_file_name;

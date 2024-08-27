@@ -32,6 +32,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['default_controller'] = 'home';
 $route['logout'] = 'auth/session_logout';
 
+$route['portal_login/(:any)'] = 'auth/save_view/$1';
+
 group_route("student", [
     "register" => 'student/save',
     "save/(:num)" => 'student/save/$1',

@@ -21,6 +21,23 @@ class Student_model extends CI_Model
         return $this->db->get()->row();
     }
 
+    public function get_filter($status = null, $username = null)
+    {
+        $status = strtoupper($status);
+
+        $this->db->select("*");
+        $this->db->from($this->table);
+        $this->db->limit(1);
+        if (!empty($status)) {
+            $this->db->where("status", $status);
+        }
+        if (!empty($username)) {
+            $this->db->where("username", $username);
+            $this->db->or_where("email", $username);
+        }
+        return $this->db->get()->row();
+    }
+
     public function get_all($status = null,  $user_id = null)
     {
         $this->db->select("*, CONCAT(first_name, ' ', last_name ) AS full_name");
