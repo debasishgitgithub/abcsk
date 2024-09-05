@@ -52,7 +52,7 @@ class Auth extends CI_Controller
 						'user_id' => $student->id,
 						'username' => $student->username,
 						'user_email' => $student->email,
-						'created_on' => $student->created_on,
+						'created_on' => $student->created_at,
 						'status' => $student->status,
 						'type' => 'STUDENT',
 					];
@@ -65,11 +65,11 @@ class Auth extends CI_Controller
 		}
 	}
 
-
 	public function session_login()
 	{
 		try {
-			//pp(password_hash('password', PASSWORD_BCRYPT));
+			$user_type = $this->input->post('user_type');
+
 			if (is_post()) {
 				$this->form_validation->set_rules(
 					[

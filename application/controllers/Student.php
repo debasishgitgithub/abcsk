@@ -272,7 +272,6 @@ class Student extends CI_Controller
 				$this->save_view($user_id, $id);
 			}
 		} catch (\Throwable $th) {
-			pp($th);
 			redirect(base_url(), 'refresh');
 		}
 	}

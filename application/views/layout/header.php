@@ -212,7 +212,7 @@
                                 <small>Member since <?= date("jS M Y", strtotime($this->http->session_get("created_on"))); ?></small>
                             </p>
                         </li>
-                       
+
                         <li class="user-footer">
                             <!-- <a href="#" class="btn btn-default btn-flat">Profile</a> -->
                             <a href="<?= base_url('logout'); ?>" class="btn btn-default btn-flat float-right">Sign out</a>
@@ -283,22 +283,24 @@
                                 </p>
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('student'); ?>" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Students
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="<?= base_url('courses'); ?>" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Manage Courses
-                                </p>
-                            </a>
-                        </li>
+                        <?php if (session_get('type') != 'STUDENT') : ?>
+                            <li class="nav-item">
+                                <a href="<?= base_url('student'); ?>" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Students
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="<?= base_url('courses'); ?>" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Manage Courses
+                                    </p>
+                                </a>
+                            </li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->

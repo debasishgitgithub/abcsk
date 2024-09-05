@@ -48,7 +48,7 @@ if (!function_exists('public_view')) {
       $ci = &get_instance();
       $ci->load->view("public/layout/header", ['title' => $title, 'Logo' => Logo, 'HF_title' => HF_title]);
       if (!is_null($body_view_path)) {
-        $ci->load->view("public/".$body_view_path, $bdata);
+        $ci->load->view("public/" . $body_view_path, $bdata);
       }
       $ci->load->view("public/layout/footer");
     } catch (\Throwable $th) {
@@ -148,5 +148,20 @@ if (!function_exists('get_message')) {
     if ($type && $message) {
       return "<div class='alert alert-{$type}' role='alert'>{$message}</div>";
     } else return "";
+  }
+}
+
+if (!function_exists('session_get')) {
+
+  function session_get($key = null)
+  {
+    $ci = &get_instance();
+    if (isset($ci->session->userdata['logged_in']->type)) {
+      $u = $ci->session->userdata['logged_in'];
+      if (!is_null($key)) {
+        return isset($u->$key) ? $u->$key : "";
+      } else return $u;
+    }
+    return false;
   }
 }
