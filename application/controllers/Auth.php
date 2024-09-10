@@ -27,7 +27,7 @@ class Auth extends CI_Controller
 	{
 		$user_type = strtoupper($user_type);
 		if ($user_type == 'SUPPORT_ADMIN' || $user_type == 'SUPER_ADMIN') {
-			if ($user = $this->user_model->get_filter(null, $username)) {
+			if ($user = $this->user_model->get_filter("", $username)) {
 				if (password_verify($password, $user->password) === true) {
 					return [
 						'admin_id' => $user->id,
@@ -45,7 +45,7 @@ class Auth extends CI_Controller
 				return "Username not found";
 			}
 		} else {
-			if ($student = $this->student_model->get_filter(null, $username)) {
+			if ($student = $this->student_model->get_filter("", $username)) {
 				if (password_verify($password, $student->password) === true) {
 					return [
 						'admin_id' => $student->admin_id,
@@ -89,7 +89,7 @@ class Auth extends CI_Controller
 				if ($this->form_validation->run()) {
 
 					$data =  $this->input->post();
-					$lresp = $this->login_mtc($data["username"], $data["password"], $data['user_type'] ?? null);
+					$lresp = $this->login_mtc($data["username"], $data["password"], $user_type);
 					if (is_array($lresp)) {
 						if (isset($lresp['type']) == 'ACTIVE') {
 							$lresp = (object) $lresp;

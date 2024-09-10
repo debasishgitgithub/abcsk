@@ -33,9 +33,8 @@ class Courses extends CI_Controller
 	public function get_all()
 	{
 		try {
-			$u = $this->http->auth(['get', 'post'], ['SUPER_ADMIN', 'SUPPORT_ADMIN']);
-			$user_id = $u->user_id;
-
+			// $u = $this->http->auth(['get', 'post'], ['SUPER_ADMIN', 'SUPPORT_ADMIN']);
+			// $user_id = $u->user_id;
 			if ($data = $this->courses_model->get_all(null)) {
 				return $this->http->response->create(200, "Data found successfully", $data);
 			} else {
