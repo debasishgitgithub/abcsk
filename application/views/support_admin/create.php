@@ -1,44 +1,37 @@
 <?php
-$student_card_header = 'Register';
+$branch_card_header = 'Register';
 
 $first_name = '';
 $last_name = '';
-$father_name = '';
-$mobile_no = '';
+$phone_no = '';
 $email = '';
 $city = '';
 $state = '';
-$aadhaar_no = '';
-$pin = '';
 $address = '';
-$course_id = '';
+$pin_no = '';
+$pan_no = '';
 $username = '';
-$installation_type = 'installment';
 $status = 'ACTIVE';
 $isUsernameDisabled = "";
 
-$action_url = base_url('student/register');
+$action_url = base_url('support_admin/save');
 
-if (isset($student_dtls) && !empty($student_dtls->id)) {
-  $student_card_header = 'Edit';
+if (isset($user_dtls) && !empty($user_dtls->id)) {
+  $branch_card_header = 'Edit';
 
-  $first_name = $student_dtls->first_name;
-  $last_name = $student_dtls->last_name;
-  $father_name = $student_dtls->father_name;
-  $mobile_no = $student_dtls->mobile_no;
-  $email = $student_dtls->email;
-  $city = $student_dtls->city;
-  $state = $student_dtls->state;
-  $aadhaar_no = $student_dtls->aadhaar_no;
-  $pin = $student_dtls->pin;
-  $address = $student_dtls->address;
-  $course_id = $student_dtls->course_id;
-  $installation_type = $student_dtls->installation_type;
-  $status = $student_dtls->status;
-  $username = $student_dtls->username;
+  $first_name = $user_dtls->first_name;
+  $last_name = $user_dtls->last_name;
+  $phone_no = $user_dtls->phone_no;
+  $email = $user_dtls->email;
+  $city = $user_dtls->city;
+  $state = $user_dtls->state;
+  $address = $user_dtls->address;
+  $pin_no = $user_dtls->pin_no;
+  $pan_no = $user_dtls->pan_no;
+  $status = $user_dtls->status;
+  $username = $user_dtls->username;
   $isUsernameDisabled = "disabled";
-
-  $action_url = base_url("student/save/{$student_dtls->id}");
+  $action_url = base_url("support_admin/save/{$user_dtls->id}");
 }
 
 ?>
@@ -50,12 +43,12 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Student <?= $student_card_header; ?></h1>
+          <h1>Branch <?= $branch_card_header; ?></h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="<?= base_url(''); ?>">Home</a></li>
-            <li class="breadcrumb-item active">Student <?= $student_card_header ?></li>
+            <li class="breadcrumb-item active">Branch <?= $branch_card_header ?></li>
           </ol>
         </div>
       </div>
@@ -75,7 +68,7 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
           <!-- Default box -->
           <div class="card card-primary">
             <div class="card-header">
-              <h3 class="card-title "><?= $student_card_header; ?></h3>
+              <h3 class="card-title "><?= $branch_card_header; ?></h3>
             </div>
             <div class="card-body table-responsive p-3">
 
@@ -94,11 +87,6 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <?= set_form_error('last_name'); ?>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="father_name">Father's name</label>
-                    <input type="text" class="form-control form-control-sm <?= set_form_error('father_name', false); ?>" name="father_name" value="<?= set_value('father_name', $father_name) ?>">
-                    <?= set_form_error('father_name'); ?>
-                  </div>
-                  <div class="form-group col-md-6">
                     <label for="username">Username</label>
                     <input type="text" class="form-control form-control-sm <?= set_form_error('username', false); ?>" name="username" value="<?= set_value('username', $username) ?>" <?=$isUsernameDisabled?>>
                     <?= set_form_error('username'); ?>
@@ -109,9 +97,9 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <?= set_form_error('password'); ?>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="mobile_no">Mobile No</label>
-                    <input type="number" class="form-control form-control-sm <?= set_form_error('mobile_no', false); ?>" name="mobile_no" value="<?= set_value('mobile_no', $mobile_no) ?>">
-                    <?= set_form_error('mobile_no'); ?>
+                    <label for="phone_no">Mobile No</label>
+                    <input type="number" class="form-control form-control-sm <?= set_form_error('phone_no', false); ?>" name="phone_no" value="<?= set_value('phone_no', $phone_no) ?>">
+                    <?= set_form_error('phone_no'); ?>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="email">Email</label>
@@ -119,9 +107,9 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <?= set_form_error('email'); ?>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="aadhaar_no">Aadhaar No</label>
-                    <input type="number" class="form-control form-control-sm <?= set_form_error('aadhaar_no', false); ?>" name="aadhaar_no" value="<?= set_value('aadhaar_no', $aadhaar_no) ?>">
-                    <?= set_form_error('aadhaar_no'); ?>
+                    <label for="pan_no">Pan No</label>
+                    <input type="text" class="form-control form-control-sm <?= set_form_error('pan_no', false); ?>" name="pan_no" value="<?= set_value('pan_no', $pan_no) ?>">
+                    <?= set_form_error('pan_no'); ?>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="city">City</label>
@@ -129,16 +117,10 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <?= set_form_error('city'); ?>
                   </div>
                   <div class="form-group col-md-6">
-                    <label for="pin">Pin no</label>
-                    <input type="number" class="form-control form-control-sm <?= set_form_error('pin', false); ?>" name="pin" value="<?= set_value('pin', $pin) ?>">
-                    <?= set_form_error('pin'); ?>
+                    <label for="pin_no">Pin no</label>
+                    <input type="number" class="form-control form-control-sm <?= set_form_error('pin_no', false); ?>" name="pin_no" value="<?= set_value('pin_no', $pin_no) ?>">
+                    <?= set_form_error('pin_no'); ?>
                   </div>
-                  <div class="form-group col-md-12">
-                    <label for="address">Address</label>
-                    <textarea class="form-control form-control-sm <?= set_form_error('address', false); ?>" name="address"><?= set_value('address', $address) ?></textarea>
-                    <?= set_form_error('address'); ?>
-                  </div>
-
                   <div class="form-group col-md-6">
                     <label for="state">State</label>
                     <?php
@@ -148,26 +130,12 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     echo set_form_error('state');
                     ?>
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="installation_type">Installation type</label>
-                    <?php
-                    $installation_type_arr = ['one_time' => 'One time', 'installment' => 'Installment'];
-                    $error_class = set_form_error('installation_type', false);
-                    echo form_dropdown("installation_type", $installation_type_arr, set_value('installation_type', $installation_type), "class='form-control form-control-sm {$error_class}'");
-                    echo set_form_error('installation_type');
-                    ?>
-                  </div>
 
-                  <div class="form-group col-md-6">
-                    <label for="category_name_id">Courses</label>
-                    <?php
-                    $courses_list = ['' => 'select couses'] + array_column($courses_list, 'short_name', 'id');
-                    $error_class = set_form_error('course_id', false);
-                    echo form_dropdown("course_id", $courses_list, set_value('course_id', $course_id), "class='form-control form-control-sm {$error_class}'");
-                    echo set_form_error('course_id');
-                    ?>
+                  <div class="form-group col-md-12">
+                    <label for="address">Address</label>
+                    <textarea class="form-control form-control-sm <?= set_form_error('address', false); ?>" name="address"><?= set_value('address', $address) ?></textarea>
+                    <?= set_form_error('address'); ?>
                   </div>
-
                   <div class="form-group col-md-6">
                     <label for="status">Status</label>
                     <?php
@@ -175,19 +143,6 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     echo form_dropdown('status', $statusArr, set_value('status', $status), "class='form-control form-control-sm'");
                     ?>
                   </div>
-
-                  <div class="form-group">
-                    <label for="mp_admit_card">Select MP Admit Card</label>
-                    <input type="file" class="form-control-file <?= set_form_error('mp_admit_card', false); ?>" name="mp_admit_card" multiple>
-                    <?= set_form_error('mp_admit_card'); ?>
-                  </div>
-
-                  <div class="form-group">
-                    <label for="profile_image">Select Profile image</label>
-                    <input type="file" class="form-control-file <?= set_form_error('profile_image', false); ?>" name="profile_image" multiple>
-                    <?= set_form_error('profile_image'); ?>
-                  </div>
-
                 </div>
 
                 <button type="submit" class="btn btn-primary float-right m-2">Submit</button>

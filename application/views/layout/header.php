@@ -283,12 +283,22 @@
                                 </p>
                             </a>
                         </li>
+                        <?php if (session_get('type') == 'SUPER_ADMIN') : ?>
+                        <li class="nav-item">
+                            <a href="<?= base_url('support_admin/index'); ?>" class="nav-link">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Manage Branch
+                                </p>
+                            </a>
+                        </li>
+                        <?php endif; ?>
                         <?php if (session_get('type') != 'STUDENT') : ?>
                             <li class="nav-item">
                                 <a href="<?= base_url('student'); ?>" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                        Students
+                                       Manage Students
                                     </p>
                                 </a>
                             </li>

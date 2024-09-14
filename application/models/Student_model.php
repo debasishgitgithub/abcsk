@@ -21,6 +21,20 @@ class Student_model extends CI_Model
         return $this->db->get()->row();
     }
 
+    public function getLastId()
+    {
+        $this->db->select("*");
+        $this->db->from($this->table);
+        $this->db->limit(1);
+        $this->db->order_by("id", "desc");
+        $result = $this->db->get()->row();
+        if ($result->id) {
+            return intval($result->id);
+        } else {
+            return null;
+        }
+    }
+
     public function get_filter($status = null, $username = null)
     {
         $status = strtoupper($status);

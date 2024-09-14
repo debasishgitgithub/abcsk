@@ -91,11 +91,20 @@ class Auth extends CI_Controller
 					$data =  $this->input->post();
 					$lresp = $this->login_mtc($data["username"], $data["password"], $user_type);
 					if (is_array($lresp)) {
-						if (isset($lresp['type']) == 'ACTIVE') {
+						if (
+							isset($lresp['status']) &&
+							$lresp['status']  == 'ACTIVE'
+						) {
 							$lresp = (object) $lresp;
-							// define('USER_DATA', $lresp);
 							$this->session->set_userdata('logged_in', $lresp);
-							redirect(base_url(), 'refresh');
+							if (
+								$lresp->type == 'SUPER_ADMIN' ||
+								$lresp->type == 'SUPPORT_ADMIN'
+							) {
+								redirect(base_url('student'), 'refresh');
+							} else {
+								redirect(base_url(), 'refresh');
+							}
 						} else {
 							set_message("danger", "You are not Active");
 						}
@@ -113,7 +122,15 @@ class Auth extends CI_Controller
 
 	public function session_logout()
 	{
-		$this->session->sess_destroy();
-		redirect(base_url());
+		if ($this->http->session_get('type') == 'SUPER_ADMIN') {
+			$this->session->sess_destroy();
+			redirect(base_url('portal_login/super_admin'));
+		} else if ($this->http->session_get('type') == 'SUPPORT_ADMIN') {
+			$this->session->sess_destroy();
+			redirect(base_url('portal_login/support_admin'));
+		} else {
+			$this->session->sess_destroy();
+			redirect(base_url('portal_login/student'));
+		}
 	}
 }

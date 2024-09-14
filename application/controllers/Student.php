@@ -60,67 +60,70 @@ class Student extends CI_Controller
 						[
 							'field' => 'first_name',
 							'label' => 'First name',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'last_name',
 							'label' => 'Last name',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'father_name',
 							'label' => 'Father name',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'username',
 							'label' => 'Username',
-							'rules' => "required|is_unique_filter[students.username.id!=/{$id}]",
+							'rules' => "is_unique_filter[students.username.id!=/{$id}]|trim",
+							'errors' => array(
+								'is_unique_filter' => '%s is already exist',
+							),
 						],
 						[
 							'field' => 'password',
 							'label' => 'Password',
-							'rules' => 'required',
+							'rules' => 'trim',
 						],
 						[
 							'field' => 'mobile_no',
 							'label' => 'Mobile no',
-							'rules' => 'required',
+							'rules' => 'trim',
 						],
 						[
 							'field' => 'email',
 							'label' => 'Email',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'city',
 							'label' => 'City',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'state',
 							'label' => 'State',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'aadhaar_no',
 							'label' => 'Aadhaar no',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'pin',
 							'label' => 'Pin',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'address',
 							'label' => 'Address',
-							'rules' => 'required',
+							'rules' => 'required|trim',
 						],
 						[
 							'field' => 'installation_type',
 							'label' => 'installation_type',
-							'rules' => 'required|in_list[one_time,installment]',
+							'rules' => 'required|in_list[one_time,installment]|trim',
 							'errors' => array(
 								'is_exist' => '%s not exist',
 							),
@@ -129,7 +132,7 @@ class Student extends CI_Controller
 						[
 							'field' => 'course_id',
 							'label' => 'Course',
-							'rules' => 'required|is_exist[courses.id]',
+							'rules' => 'required|is_exist[courses.id]|trim',
 							'errors' => array(
 								'is_exist' => '%s not exist',
 							),
@@ -137,7 +140,7 @@ class Student extends CI_Controller
 						[
 							'field' => 'status',
 							'label' => 'Status',
-							'rules' => 'required|in_list[ACTIVE,INACTIVE]',
+							'rules' => 'required|in_list[ACTIVE,INACTIVE]|trim',
 							'errors' => array(
 								'is_exist' => '%s not exist',
 							),
@@ -155,6 +158,7 @@ class Student extends CI_Controller
 						// ],
 					]
 				);
+				// pp($_POST);
 
 				if ($this->form_validation->run() == true) {
 					$uploaded_mp_file_name = '';
@@ -211,7 +215,6 @@ class Student extends CI_Controller
 						$uploaded_profile_filename = $this->mfile->file_names(true);
 					}
 
-					
 
 					$data = [
 						'admin_id' => $u->admin_id,
@@ -233,6 +236,13 @@ class Student extends CI_Controller
 
 					if ($username = $this->input->post('username')) {
 						$data['username'] = $username;
+					} else {
+						if (empty($id)) {
+							$lastId = $this->student_model->getLastId();
+							$lastId = $lastId ? $lastId + 1 : 1;
+							$usernameCreate = strtolower($data['first_name']) . strtolower($data['last_name']) . $lastId;
+							$data['username'] = $usernameCreate;
+						}
 					}
 
 					if ($password = $this->input->post('password')) {

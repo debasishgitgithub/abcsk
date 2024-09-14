@@ -75,5 +75,21 @@ ALTER TABLE `students` ADD `username` VARCHAR(200) NOT NULL AFTER `father_name`,
 
 ALTER TABLE `students` ADD `admin_id` INT NOT NULL AFTER `father_name`;
 
+### 14/09/2024
+
+ALTER TABLE
+    `users` ADD `first_name` VARCHAR(200) NOT NULL AFTER `id`,
+    ADD `last_name` VARCHAR(100) NOT NULL AFTER `first_name`;
+
+ALTER TABLE
+    `users` ADD `phone_no` VARCHAR(200) NOT NULL AFTER `status`,
+    ADD `pan_no` VARCHAR(200) NOT NULL AFTER `phone_no`,
+    ADD `city` VARCHAR(200) NOT NULL AFTER `pan_no`,
+    ADD `state` VARCHAR(200) NOT NULL AFTER `city`,
+    ADD `pin_no` INT NOT NULL AFTER `state`,
+    ADD `address` VARCHAR(400) NOT NULL AFTER `pin_no`;
+
+ALTER TABLE `students` ADD UNIQUE(`username`);
+
 ### deploying Date
 Date: 2024-09-05 (deployed)

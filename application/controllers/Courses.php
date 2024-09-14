@@ -48,7 +48,7 @@ class Courses extends CI_Controller
 	public function save($id = null)
 	{
 		try {
-			$u = $this->http->auth(['get', 'post'], ['SUPER_ADMIN', 'SUPPORT_ADMIN']);
+			$u = $this->http->auth(['get', 'post'], ['SUPER_ADMIN']);
 			$user_id = $u->user_id;
 
 			if (is_post()) {
