@@ -13,10 +13,18 @@ class Courses extends CI_Controller
 
 	private function save_view($user_id, $id = null)
 	{
+		$month_map = array(
+			'01-06' => 'January-June',
+			'07-12' => 'July-December',
+			'04-09' => 'April-September',
+			'10-03' => 'October-March',
+			'01-12' => 'January-December',
+			'04-03' => 'April-March'
+		);
 		if ($courses_dtls = $this->courses_model->get($id)) {
-			view('courses/create', compact('courses_dtls'), "ABCSK | Courses Edit");
+			view('courses/create', compact('courses_dtls', 'month_map'), "ABCSK | Courses Edit");
 		} else {
-			view('courses/create', [], "ABCSK | Courses Create");
+			view('courses/create', compact('month_map'), "ABCSK | Courses Create");
 		}
 	}
 
@@ -83,6 +91,14 @@ class Courses extends CI_Controller
 							'field' => 'status',
 							'label' => 'Status',
 							'rules' => 'required|in_list[0,1]',
+							'errors' => array(
+								'is_exist' => '%s not exist',
+							),
+						],
+						[
+							'field' => 'session',
+							'label' => 'Session',
+							'rules' => 'required|in_list[01-06,07-12,04-09,10-03,01-12,04-03]',
 							'errors' => array(
 								'is_exist' => '%s not exist',
 							),

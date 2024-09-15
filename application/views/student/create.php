@@ -36,6 +36,7 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
   $installation_type = $student_dtls->installation_type;
   $status = $student_dtls->status;
   $username = $student_dtls->username;
+  $enrollment_id = $student_dtls->enrollment_id;
   $isUsernameDisabled = "disabled";
 
   $action_url = base_url("student/save/{$student_dtls->id}");
@@ -98,9 +99,17 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <input type="text" class="form-control form-control-sm <?= set_form_error('father_name', false); ?>" name="father_name" value="<?= set_value('father_name', $father_name) ?>">
                     <?= set_form_error('father_name'); ?>
                   </div>
+                  <?php
+                  if (isset($enrollment_id)) : ?>
+                    <div class="form-group col-md-6">
+                      <label for="enrollment_id">Enrollment Id</label>
+                      <input type="text" class="form-control form-control-sm" name="enrollment_id" value="<?= $enrollment_id ?>" disabled>
+                    </div>
+                  <?php
+                  endif; ?>
                   <div class="form-group col-md-6">
                     <label for="username">Username</label>
-                    <input type="text" class="form-control form-control-sm <?= set_form_error('username', false); ?>" name="username" value="<?= set_value('username', $username) ?>" <?=$isUsernameDisabled?>>
+                    <input type="text" class="form-control form-control-sm <?= set_form_error('username', false); ?>" name="username" value="<?= set_value('username', $username) ?>" <?= $isUsernameDisabled ?>>
                     <?= set_form_error('username'); ?>
                   </div>
                   <div class="form-group col-md-6">

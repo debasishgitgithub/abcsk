@@ -258,23 +258,6 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <!-- <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="../../index.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li> -->
                         <li class="nav-item">
                             <a href="<?= base_url(); ?>" class="nav-link">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
@@ -283,25 +266,56 @@
                                 </p>
                             </a>
                         </li>
-                        <?php if (session_get('type') == 'SUPER_ADMIN') : ?>
-                        <li class="nav-item">
-                            <a href="<?= base_url('support_admin/index'); ?>" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Manage Branch
-                                </p>
-                            </a>
-                        </li>
-                        <?php endif; ?>
                         <?php if (session_get('type') != 'STUDENT') : ?>
                             <li class="nav-item">
-                                <a href="<?= base_url('student'); ?>" class="nav-link">
+                                <a href="#" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>
                                     <p>
-                                       Manage Students
+                                        Students
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('student'); ?>" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>All Students</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="<?= base_url('student/register'); ?>" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Add Student</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="../../index.html" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Courses Enrollment</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php endif; ?>
+                        <?php if (session_get('type') == 'SUPER_ADMIN') : ?>
+                            <li class="nav-item">
+                                <a href="<?= base_url('support_admin/index'); ?>" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Manage Branch
                                     </p>
                                 </a>
                             </li>
+                        <?php endif; ?>
+                        <?php if (session_get('type') != 'STUDENT') : ?>
+                            <!-- <li class="nav-item">
+                                <a href="<?= base_url('student'); ?>" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Manage Students
+                                    </p>
+                                </a>
+                            </li> -->
                             <li class="nav-item">
                                 <a href="<?= base_url('courses'); ?>" class="nav-link">
                                     <i class="nav-icon fas fa-tachometer-alt"></i>

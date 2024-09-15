@@ -6,6 +6,7 @@ $short_name = '';
 $duration_in_month = '';
 $fees = '';
 $details = '';
+$session = '';
 $status = '1';
 
 $action_url = base_url('courses/save');
@@ -18,6 +19,7 @@ if (isset($courses_dtls) && !empty($courses_dtls->id)) {
   $duration_in_month = $courses_dtls->duration_in_month;
   $fees = $courses_dtls->fees;
   $details = $courses_dtls->details;
+  $session = $courses_dtls->session;
   $status = $courses_dtls->status;
 
   $action_url = base_url("courses/save/{$courses_dtls->id}");
@@ -65,31 +67,40 @@ if (isset($courses_dtls) && !empty($courses_dtls->id)) {
               <form method="post" action="<?= $action_url; ?>" enctype="multipart/form-data">
                 <div class="row">
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-8">
                     <label for="full_name">Full name</label>
                     <input type="text" class="form-control form-control-sm <?= set_form_error('full_name', false); ?>" name="full_name" value="<?= set_value('full_name', $full_name) ?>">
                     <?= set_form_error('full_name'); ?>
                   </div>
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="short_name">Short name</label>
                     <input type="text" class="form-control form-control-sm <?= set_form_error('short_name', false); ?>" name="short_name" value="<?= set_value('short_name', $short_name) ?>">
                     <?= set_form_error('short_name'); ?>
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
+                    <label for="session">Session</label>
+                    <?php
+                    $errorClass = set_form_error('session', false);
+                    echo form_dropdown('session', [''=>'Select session']+$month_map, set_value('session', $session), "class='form-control form-control-sm {$errorClass}'");
+                    ?>
+                    <?= set_form_error('session'); ?>
+                  </div>
+
+                  <div class="form-group col-md-3">
                     <label for="duration_in_month">Duration in month</label>
                     <input type="number" class="form-control form-control-sm <?= set_form_error('duration_in_month', false); ?>" name="duration_in_month" value="<?= set_value('duration_in_month', $duration_in_month) ?>">
                     <?= set_form_error('duration_in_month'); ?>
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
                     <label for="fees">Fees</label>
                     <input type="number" class="form-control form-control-sm <?= set_form_error('fees', false); ?>" name="fees" value="<?= set_value('fees', $fees) ?>">
                     <?= set_form_error('fees'); ?>
                   </div>
 
-                  <div class="form-group col-md-4">
+                  <div class="form-group col-md-3">
                     <label for="status">Status</label>
                     <?php
                     $statusArr = ['1' => 'Active', '0' => 'Inactive'];

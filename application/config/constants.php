@@ -87,3 +87,4 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 define("HF_title", "ABCSK");
 define("APP_NAME", "ABCSK");
 define("Logo", "assets/dist/img/abcsk_logo.jpg");
+define("ENROLLMENT_ID_PREFIX", "ABCSK");

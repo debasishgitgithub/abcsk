@@ -163,6 +163,8 @@ class Student extends CI_Controller
 				if ($this->form_validation->run() == true) {
 					$uploaded_mp_file_name = '';
 					$uploaded_profile_filename = '';
+					$lastId = $this->student_model->getLastId();
+					$lastId = $lastId ? $lastId + 1 : 1;
 
 					// file validation for insert
 					if (is_null($id)) {
@@ -238,8 +240,6 @@ class Student extends CI_Controller
 						$data['username'] = $username;
 					} else {
 						if (empty($id)) {
-							$lastId = $this->student_model->getLastId();
-							$lastId = $lastId ? $lastId + 1 : 1;
 							$usernameCreate = strtolower($data['first_name']) . strtolower($data['last_name']) . $lastId;
 							$data['username'] = $usernameCreate;
 						}
@@ -259,6 +259,7 @@ class Student extends CI_Controller
 
 					if (is_null($id)) {
 						// insert
+						$data['enrollment_id'] = ENROLLMENT_ID_PREFIX . date('Ymd') . $lastId;
 						if ($this->student_model->insert($data)) {
 							set_message('success', 'Student register successfully');
 						} else {
