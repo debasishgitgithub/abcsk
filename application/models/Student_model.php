@@ -48,6 +48,7 @@ class Student_model extends CI_Model
         if (!empty($username)) {
             $this->db->where("username", $username);
             $this->db->or_where("email", $username);
+            $this->db->or_where("enrollment_id", $username);
         }
         return $this->db->get()->row();
     }

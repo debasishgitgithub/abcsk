@@ -31,7 +31,7 @@
                 <form action="<?= base_url('auth/session_login') ?>" method="post">
                     <div class="input-group mb-3">
                         <input type="hidden" name="user_type" value="<?=$user_type?>">
-                        <input type="text" name="username" class="form-control <?= set_form_error('username', false); ?>" value="<?= set_value('username') ?>" placeholder="Username">
+                        <input type="text" name="username" class="form-control <?= set_form_error('username', false); ?>" value="<?= set_value('username') ?>" placeholder="<?=strtolower($user_type) == 'student' ? 'Enrollment No' : 'Username'?>">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
