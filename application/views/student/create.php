@@ -15,6 +15,8 @@ $course_id = '';
 $username = '';
 $installation_type = 'installment';
 $status = 'ACTIVE';
+$course_start_date = '';
+$course_end_date = '';
 $isUsernameDisabled = "";
 
 $action_url = base_url('student/register');
@@ -37,6 +39,8 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
   $status = $student_dtls->status;
   $username = $student_dtls->username;
   $enrollment_id = $student_dtls->enrollment_id;
+  $course_start_date = $student_dtls->course_start_date;
+  $course_end_date = $student_dtls->course_end_date;
   $isUsernameDisabled = "disabled";
 
   $action_url = base_url("student/save/{$student_dtls->id}");
@@ -129,7 +133,7 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                   </div>
                   <div class="form-group col-md-6">
                     <label for="aadhaar_no">Aadhaar No</label>
-                    <input type="number" class="form-control form-control-sm <?= set_form_error('aadhaar_no', false); ?>" name="aadhaar_no" value="<?= set_value('aadhaar_no', $aadhaar_no) ?>">
+                    <input type="text" class="form-control form-control-sm <?= set_form_error('aadhaar_no', false); ?>" name="aadhaar_no" value="<?= set_value('aadhaar_no', $aadhaar_no) ?>">
                     <?= set_form_error('aadhaar_no'); ?>
                   </div>
                   <div class="form-group col-md-6">
@@ -142,12 +146,6 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     <input type="number" class="form-control form-control-sm <?= set_form_error('pin', false); ?>" name="pin" value="<?= set_value('pin', $pin) ?>">
                     <?= set_form_error('pin'); ?>
                   </div>
-                  <div class="form-group col-md-12">
-                    <label for="address">Address</label>
-                    <textarea class="form-control form-control-sm <?= set_form_error('address', false); ?>" name="address"><?= set_value('address', $address) ?></textarea>
-                    <?= set_form_error('address'); ?>
-                  </div>
-
                   <div class="form-group col-md-6">
                     <label for="state">State</label>
                     <?php
@@ -157,6 +155,12 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     echo set_form_error('state');
                     ?>
                   </div>
+                  <div class="form-group col-md-12">
+                    <label for="address">Address</label>
+                    <textarea class="form-control form-control-sm <?= set_form_error('address', false); ?>" name="address"><?= set_value('address', $address) ?></textarea>
+                    <?= set_form_error('address'); ?>
+                  </div>
+
                   <div class="form-group col-md-6">
                     <label for="installation_type">Installation type</label>
                     <?php
@@ -167,14 +171,24 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
                     ?>
                   </div>
 
-                  <div class="form-group col-md-6">
+                  <div class="form-group col-md-4">
                     <label for="category_name_id">Courses</label>
                     <?php
                     $courses_list = ['' => 'select couses'] + array_column($courses_list, 'short_name', 'id');
                     $error_class = set_form_error('course_id', false);
-                    echo form_dropdown("course_id", $courses_list, set_value('course_id', $course_id), "class='form-control form-control-sm {$error_class}'");
+                    echo form_dropdown("course_id", $courses_list, set_value('course_id', $course_id), "class='form-control form-control-sm {$error_class}' id='course_id'");
                     echo set_form_error('course_id');
                     ?>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="course_start_date">Course Start Date</label>
+                    <input type="date" class="form-control form-control-sm <?= set_form_error('course_start_date', false); ?>" name="course_start_date" value="<?= set_value('course_start_date', $course_start_date) ?>" readonly>
+                    <?= set_form_error('course_start_date'); ?>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="course_end_date">Course End Date</label>
+                    <input type="date" class="form-control form-control-sm <?= set_form_error('course_end_date', false); ?>" name="course_end_date" value="<?= set_value('course_end_date', $course_end_date) ?>" readonly>
+                    <?= set_form_error('course_end_date'); ?>
                   </div>
 
                   <div class="form-group col-md-6">
@@ -215,7 +229,40 @@ if (isset($student_dtls) && !empty($student_dtls->id)) {
 <!-- /.content-wrapper -->
 <script>
   $(document).ready(function() {
+    $('body').on('change', '#course_id', function() {
+      const course_id = $(this).val();
+      let course_start_date_elem = $('input[name="course_start_date"]');
+      let course_end_date_elem = $('input[name="course_end_date"]');
 
+      if (course_id) {
+        $.ajax({
+          url: `<?= base_url("courses/get_session_date/") ?>${course_id}`,
+          type: 'get',
+          dataType: 'json',
+          beforeSend: function() {
+            $('.loading').show();
+          },
+          success: function(data) {
+            $('.loading').hide();
+            if (data.code == 200) {
+              course_start_date_elem.val(data.data.course_start_date);
+              course_end_date_elem.val(data.data.course_end_date);
+            } else {
+              course_start_date_elem.val('');
+              course_end_date_elem.val('');
+              toastr.error(data.message);
+            }
+          },
+          error: function() {
+            $('.loading').hide();
+            toastr.error("Something is wrong");
+          }
+        });
+      } else {
+        course_start_date_elem.val('');
+        course_end_date_elem.val('');
+      }
+    });
 
   });
 </script>

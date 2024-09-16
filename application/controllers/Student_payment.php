@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Courses extends CI_Controller
+class Student_payment extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model([
-			'courses_model'
+			'Student_payment_model'
 		]);
 	}
 
@@ -38,65 +38,6 @@ class Courses extends CI_Controller
 		}
 	}
 
-	public function get_session_date($course_id)
-	{
-		try {
-			if ($data = $this->courses_model->get($course_id)) {
-				$responseData = [];
-				$currentYear = intval(date('Y'));
-				$nextYear = $currentYear +1;
-
-				switch ($data->session) {
-					case '01-06':
-						$responseData = [
-							'course_start_date' => "{$currentYear}-01-01",
-							'course_end_date' => "{$currentYear}-06-30",
-						];
-						break;
-					case '07-12':
-						$responseData = [
-							'course_start_date' => "{$currentYear}-07-01",
-							'course_end_date' => "{$currentYear}-12-31",
-						];
-						break;
-					case '04-09':
-						$responseData = [
-							'course_start_date' => "{$currentYear}-04-01",
-							'course_end_date' => "{$currentYear}-09-30",
-						];
-						break;
-					case '10-03':
-						$responseData = [
-							'course_start_date' => "{$currentYear}-10-01",
-							'course_end_date' => "{$nextYear}-03-31",
-						];
-						break;
-					case '01-12':
-						$responseData = [
-							'course_start_date' => "{$currentYear}-01-01",
-							'course_end_date' => "{$currentYear}-12-31",
-						];
-						break;
-					case '04-03':
-						$responseData = [
-							'course_start_date' => "{$currentYear}-04-01",
-							'course_end_date' => "{$nextYear}-03-31",
-						];
-						break;
-
-					default:
-						return $this->http->response->create(203, "Incorrect session found in table");
-						break;
-				}
-
-				return $this->http->response->create(200, "Data fetch successfully", $responseData);
-			} else {
-				return $this->http->response->create(203, "No data found");
-			}
-		} catch (\Throwable $th) {
-			return $this->http->response->serverError($th->getMessage());
-		}
-	}
 
 	public function get_all()
 	{
@@ -204,21 +145,6 @@ class Courses extends CI_Controller
 			}
 		} catch (\Throwable $th) {
 			redirect(base_url(), 'refresh');
-		}
-	}
-
-	public function delete($course_id)
-	{
-		try {
-			$u = $this->http->auth(['post'], ['SUPER_ADMIN']);
-			if ($this->courses_model->delete($course_id)) {
-
-				return $this->http->response->create(200, "Delete successfully");
-			} else {
-				return $this->http->response->create(203, "Delete Failed");
-			}
-		} catch (\Throwable $th) {
-			return $this->http->response->serverError($th->getMessage());
 		}
 	}
 }

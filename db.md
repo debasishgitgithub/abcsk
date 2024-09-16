@@ -97,16 +97,23 @@ ALTER TABLE `students` ADD `enrollment_id` VARCHAR(100) NOT NULL AFTER `id`;
 
 ALTER TABLE `courses` ADD `session` ENUM('01-06','07-12','04-09','10-03','01-12','04-03') NULL AFTER `duration_in_month`;
 
-	CREATE TABLE `courses_enrollment` (
+### 16/09/2024
+
+ALTER TABLE `students` ADD `course_start_date` DATE NULL AFTER `course_id`, ADD `course_end_date` DATE NULL AFTER `course_start_date`;
+
+ALTER TABLE `students` CHANGE `aadhaar_no` `aadhaar_no` VARCHAR(100) NOT NULL;
+
+CREATE TABLE `student_payment` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
- `student_id` int(11) NOT NULL,
- `course_id` int(11) NOT NULL,
- `installment_type` enum('installment','one_time') DEFAULT NULL,
- `start_date` date DEFAULT NULL,
- `end_date` date DEFAULT NULL,
+ `trans_id` varchar(100) NOT NULL,
+ `enrollment_id` varchar(100) NOT NULL,
+ `amount` varchar(100) NOT NULL,
+ `payment_date` date DEFAULT NULL,
  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci
 
+ALTER TABLE `student_payment` ADD UNIQUE(`trans_id`);
+
 ### deploying Date
-Date: 2024-09-14 (deployed)
+Date: 2024-09-16 (deployed)

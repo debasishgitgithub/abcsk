@@ -108,7 +108,7 @@ class Student extends CI_Controller
 						[
 							'field' => 'aadhaar_no',
 							'label' => 'Aadhaar no',
-							'rules' => 'required|trim',
+							'rules' => 'required|trim|exact_length[12]',
 						],
 						[
 							'field' => 'pin',
@@ -118,6 +118,16 @@ class Student extends CI_Controller
 						[
 							'field' => 'address',
 							'label' => 'Address',
+							'rules' => 'required|trim',
+						],
+						[
+							'field' => 'course_start_date',
+							'label' => 'Course start date',
+							'rules' => 'required|trim',
+						],
+						[
+							'field' => 'course_end_date',
+							'label' => 'Course end date',
 							'rules' => 'required|trim',
 						],
 						[
@@ -233,6 +243,8 @@ class Student extends CI_Controller
 						'course_id' => $this->input->post('course_id'),
 						'installation_type' => $this->input->post('installation_type'),
 						'status' => $this->input->post('status'),
+						'course_start_date' => $this->input->post('course_start_date'),
+						'course_end_date' => $this->input->post('course_end_date'),
 						'user_id' => $user_id,
 					];
 
@@ -259,7 +271,8 @@ class Student extends CI_Controller
 
 					if (is_null($id)) {
 						// insert
-						$data['enrollment_id'] = ENROLLMENT_ID_PREFIX . date('Ymd') . $lastId;
+
+						$data['enrollment_id'] = date('ymd') . substr($data['aadhaar_no'],-4)."A".sprintf("%04d", $lastId);
 						if ($this->student_model->insert($data)) {
 							set_message('success', 'Student register successfully');
 						} else {
